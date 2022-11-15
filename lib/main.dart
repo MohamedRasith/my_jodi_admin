@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-            const Page1()
+            const LoginScreen()
             )
         )
     );
@@ -60,6 +60,147 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         )
     );
+  }
+}
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Are you sure?'),
+        content: const Text('Do you want to exit an App'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('No'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    TextEditingController username = TextEditingController();
+    TextEditingController password = TextEditingController();
+    return WillPopScope(
+        onWillPop: _onWillPop,
+        child:Scaffold(
+            appBar: AppBar(title:Text("Login",style: AppFonts.extraBoldStyle(fontSize: 20,fontColor: AppColors.backgroundColorF5),
+            ),
+              backgroundColor: AppColors.blackColor,
+              automaticallyImplyLeading: false,
+            ),
+            body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child:Image.asset("assets/images/matrimony.png",width: 200,height: 200,),
+                    ),
+                    Container(
+                        width: double.maxFinite,
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: AppColors.whiteFF,
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.blackColor.withOpacity(.25),
+                              offset: const Offset(0, 1),
+                              blurRadius: 5,
+                            ),
+                          ],
+                        ),
+                        child:Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("User Name", style: AppFonts.extraBoldStyle(fontColor: Colors.black,fontSize: 15),),
+                            TextField(
+                                controller: username,
+                                decoration: const InputDecoration(
+                                  icon: Icon(Icons.person,color: Colors.black,),
+                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)),borderSide: BorderSide(color: Colors.black, width: 2)),//icon at head of input
+                                )
+                            ),
+                            const CustomSpacerWidget(height: 20,),
+                            Text("Password", style: AppFonts.extraBoldStyle(fontColor: Colors.black,fontSize: 15),),
+                            TextField(
+                                controller: password,
+                                decoration: const InputDecoration(
+                                  icon: Icon(Icons.password,color: Colors.black,),
+                                  focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(10)),borderSide: BorderSide(color: Colors.black, width: 2)),//icon at head of input
+                                )
+                            ),
+                            const CustomSpacerWidget(height: 20,),
+                          ],
+                        )
+                    ),
+                    const CustomSpacerWidget(height: 20,),
+                    Center(
+                        child:GestureDetector(
+                          onTap: ()  {
+                            if(username.text == "Manoj" && password.text == "manoj@123"){
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const Page1()));
+                              Fluttertoast.showToast(
+                                  msg: "Login Successfully",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM // Also possible "TOP" and "CENTER"
+                              );
+                            }
+                            else if(username.text.isEmpty && password.text.isEmpty){
+                              Fluttertoast.showToast(
+                                  msg: "Please Enter Details",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM // Also possible "TOP" and "CENTER"
+                              );
+                            }
+                            else{
+                              Fluttertoast.showToast(
+                                  msg: "Incorrect User Name or Password",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM // Also possible "TOP" and "CENTER"
+                              );
+                            }
+
+                          },
+                          child: Container(
+                              width: 150,
+                              height: 50,
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: AppColors.blackColor,
+                                borderRadius: BorderRadius.circular(12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.blackColor.withOpacity(.25),
+                                    offset: const Offset(0, 1),
+                                    blurRadius: 5,
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                  child: Text("Login",style: AppFonts.extraBoldStyle(fontColor: Colors.white,fontSize: 15),)
+                              )
+                          ),
+                        )),
+                  ],
+                )
+            )
+        ))  ;
   }
 }
 class Page1 extends StatelessWidget {
@@ -94,6 +235,7 @@ class Page1 extends StatelessWidget {
             const CustomSpacerWidget(height: 10),
             SizedBox(
               width: double.maxFinite,
+              height: double.maxFinite,
               child: StreamBuilder<QuerySnapshot>(
                 stream: usersStream,
                 builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

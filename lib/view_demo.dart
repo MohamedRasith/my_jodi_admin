@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:my_jodi_admin/main.dart';
 import 'package:my_jodi_admin/common_widgets/custom_spacer_widget.dart';
@@ -18,6 +19,9 @@ class _ViewDemoState extends State<ViewDemo> {
         builder: (context) => Navigation.back(context)
     )) ?? false;
   }
+  dynamic data;
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -54,13 +58,13 @@ class _ViewDemoState extends State<ViewDemo> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Name :  XXXXXXX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
+                              Text("Name : XXXXXXX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
                               const CustomSpacerWidget(height: 10),
                               Text("Age : XX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
                               const CustomSpacerWidget(height: 10),
-                              Text("Religion : XXXXXX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
+                              Text("Religion : XXXXXXX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
                               const CustomSpacerWidget(height: 10),
-                              Text("Location : XXXXXX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
+                              Text("Location : XXXXXXXX", style: AppFonts.regularStyle(fontColor: Colors.black,fontSize: 15),),
                               const CustomSpacerWidget(height: 30),
                               GestureDetector(
                                 onTap: (){
